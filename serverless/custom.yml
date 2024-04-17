@@ -1,0 +1,4 @@
+  # Custom configuration
+  esbuild:
+    bundle: true
+    minify: true

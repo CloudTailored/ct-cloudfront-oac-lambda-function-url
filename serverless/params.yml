@@ -1,0 +1,7 @@
+# Stage based variables
+  default:
+    deletionPolicy: Delete
+    updateReplacePolicy: Delete
+  dev:
+    deletionPolicy: Delete
+    updateReplacePolicy: Delete

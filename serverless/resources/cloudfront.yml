@@ -1,0 +1,40 @@
+Resources:
+  # CloudFront distribution
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    DeletionPolicy: ${param:deletionPolicy}
+    UpdateReplacePolicy: ${param:deletionPolicy}
+    Properties:
+      DistributionConfig:
+        Origins:
+        - DomainName: !Select [2, !Split ["/", !GetAtt HelloWorldLambdaFunctionUrl.FunctionUrl]] # Strip https:// from the Lambda function url
+          Id: LambdaFunctionUrlOrigin
+          CustomOriginConfig:
+            HTTPSPort: 443
+            OriginProtocolPolicy: https-only
+          OriginAccessControlId: !GetAtt CloudFrontOriginAccessControlLambda.Id # Reference to the Origin Access Control for Lambda function urls
+        Enabled: true
+        DefaultRootObject: ''
+        DefaultCacheBehavior:
+          AllowedMethods:
+            ["GET", "HEAD", "OPTIONS"]
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6 # AWS managed CachingOptimized policy
+          CachedMethods: ["GET", "HEAD", "OPTIONS"]
+          Compress: true
+          TargetOriginId: LambdaFunctionUrlOrigin
+          ViewerProtocolPolicy: redirect-to-https
+        HttpVersion: http2and3
+        IPV6Enabled: true
+        PriceClass: PriceClass_All
+
+  # CloudFront Origin Access Control for Lambda function urls
+  CloudFrontOriginAccessControlLambda:
+    Type: AWS::CloudFront::OriginAccessControl
+    DeletionPolicy: ${param:deletionPolicy}
+    UpdateReplacePolicy: ${param:deletionPolicy}
+    Properties:
+      OriginAccessControlConfig:
+        Name: CloudFrontOriginAccessControlLambda
+        OriginAccessControlOriginType: lambda
+        SigningBehavior: always
+        SigningProtocol: sigv4

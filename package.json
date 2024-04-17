@@ -1,0 +1,14 @@
+{
+  "name": "ct-cloudfront-oac-lambda-function-url",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.137",
+    "serverless": "^3.19.0",
+    "serverless-esbuild": "^1.52.1"
+  }
+}

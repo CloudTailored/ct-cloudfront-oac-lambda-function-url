@@ -1,0 +1,7 @@
+# Hello word lambda function
+HelloWorld:
+  name: HelloWorld
+  handler: app/handlers/HelloWorld.handler
+  # We want the lambda to have a Lambda function url so define url in the function configuration
+  url:
+    authorizer: aws_iam # Make sure Lambda function url can only be called with valid IAM credentials (which CloudFront Origin Access Control will provide)

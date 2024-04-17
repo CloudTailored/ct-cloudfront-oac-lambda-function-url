@@ -1,0 +1,44 @@
+# CloudTailored - CloudFront Origin Access Control for Lambda function urls
+service: ct-cloudfront-oac-lambda-function-url
+
+frameworkVersion: '3'
+
+configValidationMode: error
+
+# Serverless params file
+params: ${file(./serverless/params.yml)}
+
+# Serverless custom file
+custom: ${file(./serverless/custom.yml)}
+
+# Provider
+provider:
+  name: aws
+  stage: ${opt:stage, "dev"}
+  region: ${opt:region, "eu-west-1"}
+  deploymentMethod: direct
+  logRetentionInDays: 14
+  runtime: nodejs20.x
+  memorySize: 128
+  timeout: 10
+  versionFunctions: false
+  architecture: arm64
+  deploymentBucket:
+    blockPublicAccess: true
+
+# Package configuration
+package:
+  individually: true
+
+# Functions
+functions:
+  - ${file(./serverless/functions.yml)}
+
+# Cloudformation resources
+resources:
+  - ${file(./serverless/resources/cloudfront.yml)}
+  - ${file(./serverless/resources/lambda.yml)}
+
+# Plugins
+plugins:
+  - serverless-esbuild

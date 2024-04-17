@@ -1,0 +1,9 @@
+Resources:
+  # Permission for CloudFront to invoke the Lambda function
+  LambaPermissionCloudFrontOriginAccessControl:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      Action: lambda:InvokeFunctionUrl
+      Principal: "cloudfront.amazonaws.com"
+      SourceArn: !Sub "arn:aws:cloudfront::${aws:accountId}:distribution/${CloudFrontDistribution}"
+      FunctionName: !Ref HelloWorldLambdaFunction
